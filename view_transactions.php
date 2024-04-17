@@ -4,23 +4,20 @@
         <meta charset="UTF-8">
         <?php include 'common/resource.php'; ?>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <title>View Transactions</title>
+        <title>查看交易</title>
     </head>
     <body>
         <?php include 'common/nav.html'; ?>
         <div class="container mt-5">
-            <h2>Transaction List</h2>
-            <div class="container mt-5">
-                <h3>Expense Distribution by Category</h3>
-            </div>
+            <h2>交易列表</h2>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Type</th>
-                        <th>Category</th>
-                        <th>Amount</th>
-                        <th>Description</th>
+                        <th>日期</th>
+                        <th>类型</th>
+                        <th>类别</th>
+                        <th>金额</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
