@@ -45,7 +45,10 @@
                                 <td>
                                     <div style='text-align: right;'>
                                         <a class='btn btn-secondary btn-sm' data-bs-toggle='modal' data-bs-target='#editCategoryModal' data-id='" . $category['id'] . "' data-name='" . $category['name'] . "'>编辑</a>
-                                        <a class='btn btn-danger btn-sm'>删除</a>
+                                        <form action='' method='post' style='display: inline-block;'>
+                                            <input type='hidden' name='delete_id' value='" . $category["id"] . "'>
+                                            <button type='submit' name='delete_submit' class='btn btn-danger btn-sm' style='margin-left: 5px;'>删除</button>
+                                        </form>
                                     </div>
                                 </td>
                              </tr>";
@@ -84,6 +87,11 @@
             $stmt = mysqli_prepare($conn, $sql);
             mysqli_stmt_bind_param($stmt, "si", $updated_name, $category_id);
             mysqli_stmt_execute($stmt);
+        }
+        if (isset($_POST['delete_id'])) {
+            $delete_id = $_POST['delete_id'];
+            $sql = "DELETE FROM categories WHERE id='$delete_id'";
+            mysqli_query($conn, $sql);
         }
         ?>
 

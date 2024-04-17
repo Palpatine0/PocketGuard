@@ -690,7 +690,32 @@ if (isset($_POST['submit'])) {
 
 ### 3.1.4 删除类别功能
 
+1. 修改删除按钮
 
+    修改按钮，以表单形式提交
+
+```html
+<form action='' method='post' style='display: inline-block;'>
+    <input type='hidden' name='delete_id' value='" . $category["id"] . "'>
+    <button type='submit' name='delete_submit' class='btn btn-danger btn-sm' style='margin-left: 5px;'>删除</button>
+</form>
+```
+
+![img_9.png](img_9.png)
+
+2. 添加`php`数据处理逻辑
+
+```php
+<?php
+    if (isset($_POST['delete_id'])) {
+        $delete_id = $_POST['delete_id'];
+        $sql = "DELETE FROM categories WHERE id='$delete_id'";
+        mysqli_query($conn, $sql);
+    }
+?>
+```
+
+![img_10.png](img_10.png)
  
 
 
