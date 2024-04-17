@@ -195,11 +195,11 @@
 </html>
 ```  
 
-**效果图：**  
+**效果图✨**  
 ![img.png](img.png)
 
 1. 创建`add_transaction.php`
-```php  
+```html  
 <!DOCTYPE html>  
 <html lang="en">  
     <head>  
@@ -210,14 +210,14 @@
         <?php include 'common/nav.html'; ?>  
         <div class="container mt-5">  
             <h2>添加交易</h2>  
-            <form action="process_transaction.php" method="post">  
+            <form action="" method="post">  
                 <!-- Transaction Type -->  
                 <div class="mb-3">  
                     <label for="transactionType" class="form-label">交易类型</label>  
                     <select class="form-select" id="transactionType" name="transaction_type" required>  
                         <option value="">选择类型</option>  
-                        <option value="Income">收入</option>  
-                        <option value="Expense">支出</option>  
+                        <option value="1">收入</option>  
+                        <option value="2">支出</option>  
                     </select>  
                 </div>  
   
@@ -226,9 +226,9 @@
                     <input type="number" class="form-control" id="amount" name="amount" placeholder="输入金额" required>  
                 </div>  
   
-                <div class="mb-3">  
-                    <label for="transactionDate" class="form-label">日期</label>  
-                    <input type="date" class="form-control" id="transactionDate" name="transaction_date" required>  
+                <div class="mb-3">
+                    <label for="transactionDate" class="form-label">时间</label>
+                    <input type="datetime-local" class="form-control" id="transactionDate" name="transaction_date" required>
                 </div>  
   
                 <div class="mb-3">  
@@ -250,11 +250,11 @@
 </html>
 ```  
 
-**效果图：**  
-![img.png](img_2.png)  
+**效果图✨**  
+![img_15.png](img_15.png)  
   
 3. 创建`view_transaction.php`  
-```php  
+```html
 <!DOCTYPE html>  <html lang="en">    
     <head>    
         <meta charset="UTF-8">    
@@ -291,7 +291,7 @@
 - **添加模拟数据**  
   我们需要一些模拟数据来填充该界面，以展示页面的样式和功能。旨在  
   帮助我们更好地了解页面的布局和交互，对最终的展示有一个更清晰的预期
-```php  
+```html
 <tbody>    
     <?php    
     // Fake data    
@@ -317,11 +317,11 @@
 ```
 ![](https://zhjyshop.oss-cn-hangzhou.aliyuncs.com/Public/Uploads/m_661fc3a96a5ee.jpg)
 
-**效果图：**  
+**效果图✨**  
 ![img_1.png](img_1.png)  
 
 4. 创建`manage_categories.php`
-```php  
+```html
 <!DOCTYPE html>  
 <html lang="en">  
     <head>  
@@ -356,7 +356,7 @@
 </html>
 ```  
 - **添加模拟数据**
-```php  
+```html
 <<?php  
                     // Fake data  
                     $categories = [  
@@ -384,11 +384,11 @@
 
 ![](https://zhjyshop.osshangzhou.aliyuncs.com/Public/Uploads/m_661fc4027b3d4.jpg)  
 
-**效果图：**  
+**效果图✨**  
 ![img_4.png](img_4.png)
 
 5. 创建`dashboard.php`
-```php  
+```html
 <!DOCTYPE html>  
 <html lang="zh-CN">  
     <head>  
@@ -440,8 +440,8 @@
     </body>  
 </html>
 ```  
-**效果图：**  
-![[Pasted image 20240412051915.png]]
+**效果图✨**  
+![img_11.png](img_11.png)
 
 
 
@@ -458,35 +458,31 @@
 ```sql  
 CREATE TABLE transactions (
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	date int(10),
-	cid INT,
-	category_id INT,
-	amount DECIMAL ( 10, 2 ),
+    type INT,
+    amount DECIMAL ( 10, 2 ),
+    datetime int(10),
+    cid INT,
 	description TEXT 
 );
 ```  
 - **`id`**: 唯一标识每条交易的自增主键
-- **`date`**: 交易发生的日期和时间
-- **`cid`**: 记录交易类别表的id
-- **`category_id`**: 类别ID，表示交易所属的类别
+- **`type`**: 交易类型 1: 收入, 2: 支出
 - **`amount`**: 交易金额，以十进制格式存储，保留两位小数
+- **`datetime`**: 交易发生的日期和时间
+- **`cid`**: 记录交易类别表的id
 - **`description`**: 交易描述，包括有关交易的详细信息
 
-  **插入数据**
+
+
+**插入数据**
 ```sql  
-INSERT INTO transactions (date, cid, category_id, amount, description) VALUES
-(1703662617, 1, 1, 100.50, 'Purchase of groceries'),
-(1703677800, 2, 2, 50.25, 'Payment for utilities'),
-(1703690700, 3, 1, 75.75, 'Dining out with friends'),
-(1703750100, 4, 3, 120.00, 'Online shopping'),
-(1703763600, 5, 1, 90.20, 'Fuel refill for car'),
-(1703842200, 6, 2, 60.75, 'Electricity bill payment'),
-(1703856300, 7, 3, 45.60, 'Purchase of office supplies'),
-(1703924400, 8, 1, 85.90, 'Lunch at a restaurant'),
-(1703942400, 9, 2, 70.35, 'Internet bill payment'),
-(1704013500, 10, 1, 110.80, 'Grocery shopping for the week'),
-(1704029700, 11, 3, 55.45, 'Purchase of books'),
-(1704111000, 12, 2, 40.00, 'Mobile phone bill payment');
+INSERT INTO transactions (type, amount, datetime, cid, description) VALUES
+(1, 100.00, 1703662617, 1, 'Salary received'),
+(2, 50.25, 1703749000, 2, 'Grocery shopping'),
+(2, 20.50, 1703835400, 3, 'Dinner at restaurant'),
+(1, 150.00, 1703921800, 1, 'Freelance work payment'),
+(2, 35.75, 1704008200, 2, 'Online bill payment');
+
 ```  
 
 
@@ -500,7 +496,8 @@ CREATE TABLE categories (
 - **`id`**: 唯一标识每个类别的自增主键。
 - **`name`**: 类别名称，限制为最大长度为50的字符串，不能为空。
 
-  **插入数据**
+**插入数据**
+
 ```sql  
 INSERT INTO categories (name) VALUES 
 ('Groceries'),
@@ -537,6 +534,7 @@ $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
 ```
 
 ## 3.项目搭建
+
 ### 3.1  类别管理
 首先搭建类别管理，我们会在添加交易的时候用到类别管理的数据
 
@@ -546,12 +544,15 @@ $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
 
 1.将模拟数据切换成数据库的数据
 
+
 ```php
 $sql = 'SELECT * FROM categories';
 $result = mysqli_query($conn, $sql);
 $categories  = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ```
+
 通过替换原来的内容以动态化写死的数据
+
 
 ![img_7.png](img_7.png)
 
@@ -563,7 +564,8 @@ $categories  = mysqli_fetch_all($result, MYSQLI_ASSOC);
 **步骤：**
 <hr>
 
-1. 添加`php`数据添加逻辑
+1. 添加`php`数据处理逻辑
+
 ```php
 <?php
 if (isset($_POST['submit'])) {
@@ -593,16 +595,196 @@ if (isset($_POST['submit'])) {
  
 ```
 ![img_8.png](img_8.png)
-![img_6.png](img_6.png)
+
 
 - `<div class="alert alert-danger" role="alert">请输入一个类别名称</div>` 是一个带有 Bootstrap 样式的 div 元素，它会显示为红色背景的框，提示用户输入一个类别名称。
 - `class="alert alert-danger"` 是 Bootstrap 的样式类，表示这是一个危险（danger）级别的提示框，通常用于显示错误或警告信息。
 - `role="alert"` 是一个辅助性的 ARIA 角色属性，用于定义元素的作用，这里表示这个 div 元素是一个警告框。
 
+**效果图✨**
+![img_6.png](img_6.png)
+
+### 3.1.3 编辑类别功能
+
+1. 修改编辑按钮
+
+    添加了 data-id 和 data-name 属性，用于在模态框中显示对应的类别信息。
+
+```html
+<a class='btn btn-secondary btn-sm' data-bs-toggle='modal' data-bs-target='#editCategoryModal' data-id='" . $category['id'] . "' data-name='" . $category['name'] . "'>编辑</a>
+```
+
+- `data-bs-toggle='modal'`: 这个属性告诉 Bootstrap 模态框插件在单击按钮时要显示一个模态框。
+
+- `data-bs-target='#editCategoryModal'`: 这个属性指定了要显示的模态框的目标，其值是模态框的 ID，也就是 editCategoryModal。
+
+- `data-id='" . $category['id'] . "'`: 这个属性用于存储类别的 ID 值，以便在模态框中使用。
+
+- `data-name='" . $category['name'] . "'`: 这个属性用于存储类别的名称，以便在模态框中使用。
+
+2. 添加模态
+
+    添加模态，当用户点击编辑的时候弹出widget，用户可以在widget中编辑类别名称
+    接着提交修改
+
+```html
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCategoryModalLabel">编辑类别</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="updated_name" class="form-label">类别名称</label>
+                        <input type="text" class="form-control" id="updated_name" name="updated_name">
+                        <input type="hidden" id="category_id" name="id">
+                    </div>
+                    <button type="submit" name="update" class="btn btn-primary">更新类别</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+```javascript
+<script>
+    var editCategoryModal = document.getElementById('editCategoryModal');
+    editCategoryModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var id = button.getAttribute('data-id');
+        var name = button.getAttribute('data-name');
+        var modalInputName = editCategoryModal.querySelector('.modal-body input[name="updated_name"]');
+        var modalInputId = editCategoryModal.querySelector('.modal-body input[name="id"]');
+        modalInputName.value = name;
+        modalInputId.value = id;
+    });
+</script>
+
+```
+
+3. 添加`php`数据处理逻辑
+
+```php
+<?php
+    if (isset($_POST['update']) && !empty($_POST['updated_name']) && !empty($_POST['id'])) {
+        $updated_name = $_POST['updated_name'];
+        $category_id = $_POST['id'];
+        $sql = "UPDATE categories SET name=? WHERE id=?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "si", $updated_name, $category_id);
+        mysqli_stmt_execute($stmt);
+    }
+?>
+```
+
+这段代码通过使用参数化查询来防止 SQL 注入。参数化查询是一种将 SQL 查询语句与用户提供的数据分开的方法。在这种情况下，SQL 查询中的变量部分（即需要从用户输入中获取的部分）被替换为占位符，而用户提供的数据则作为参数传递给查询。这样做可以防止恶意用户利用输入数据来执行 SQL 注入攻击。
+
+>**SQL 注入**💡
+> 
+> 常见的网络安全漏洞，攻击者通过在输入字段中注入恶意的 SQL 代码，从而获取或修改数据库中的数据，甚至完全控制数据库服务器。通过使用参数化查询，我们可以确保用户输入的数据不会被解释为 SQL 代码的一部分，从而有效地防止了 SQL 注入攻击。
+
+**效果图✨**
+![img_12.png](img_12.png)
+
+### 3.1.4 删除类别功能
+
+1. 修改删除按钮
+
+    修改按钮，以表单形式提交
+
+```html
+<form action='' method='post' style='display: inline-block;'>
+    <input type='hidden' name='delete_id' value='" . $category["id"] . "'>
+    <button type='submit' name='delete_submit' class='btn btn-danger btn-sm' style='margin-left: 5px;'>删除</button>
+</form>
+```
+
+![img_9.png](img_9.png)
+
+2. 添加`php`数据处理逻辑
+
+```php
+<?php
+    if (isset($_POST['delete_id'])) {
+        $delete_id = $_POST['delete_id'];
+        $sql = "DELETE FROM categories WHERE id='$delete_id'";
+        mysqli_query($conn, $sql);
+    }
+?>
+```
+
+![img_10.png](img_10.png)
 
 
+### 3.2 添加交易
 
+### 3.2.1 更新类别选择
 
- 
+将类别改成下拉菜单，数据从数据库里读取
 
+```html
+<div class="mb-3">
+    <label for="category" class="form-label">类别</label>
+    <select class="form-select" id="category" name="category" required>
+        <option value="">选择类别</option>
+        <?php
+        $sql = "SELECT * FROM categories";
+        $result = mysqli_query($conn, $sql);
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+        }
+        ?>
+    </select>
+</div>
+```
 
+![img_13.png](img_13.png)
+
+**效果图✨**
+![img_16.png](img_16.png)
+
+成功连通了自定义交易类别
+
+### 3.2.2 添加交易功能
+
+将页面的各个字段插入到数据库
+
+```php
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $type = $_POST['type'];
+    $amount = $_POST['amount'];
+    $datetime = strtotime($_POST['datetime']);
+    $cid = $_POST['category'];
+    $description = $_POST['description'];
+
+    // Sanitize the input
+    $type = mysqli_real_escape_string($conn, $type);
+    $amount = mysqli_real_escape_string($conn, $amount);
+    $datetime = mysqli_real_escape_string($conn, $datetime);
+    $cid = mysqli_real_escape_string($conn, $cid);
+    $description = mysqli_real_escape_string($conn, $description);
+
+    // Insert transaction into the database
+    $sql = "INSERT INTO transactions (type, amount, datetime, cid, description) 
+    VALUES ('$type', '$amount', '$datetime', '$cid', '$description')";
+    mysqli_query($conn, $sql);
+}
+?>
+```
+
+值得注意的是，我们获取的到的时间数据需要使用`strtotime()`方法转换成时间戳
+好处如下
+>- **统一格式：** 
+> 将时间数据转换为时间戳后，可以在不同的系统和编程语言中更容易地进行处理，因为时间戳是一个统一的数字格式，不受时区、语言环境或日期格式的影响。
+>- **便于比较：**
+> 时间戳是数字，可以直接进行大小比较。这对于在数据库中对时间进行排序或筛选时特别有用，也方便了对时间的各种计算和处理。
+> - **易于操作：** 
+> 使用时间戳可以方便地进行日期和时间的各种操作，如加减、格式化、转换等。而在字符串格式中，要进行相同的操作可能会更复杂一些。
+> - **兼容性：** 
+> 在许多编程语言和数据库系统中，时间戳都是常见的时间表示方法，因此使用时间戳可以提高代码的兼容性。
