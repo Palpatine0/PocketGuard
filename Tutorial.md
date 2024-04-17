@@ -546,12 +546,15 @@ $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
 
 1.将模拟数据切换成数据库的数据
 
+
 ```php
 $sql = 'SELECT * FROM categories';
 $result = mysqli_query($conn, $sql);
 $categories  = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ```
+
 通过替换原来的内容以动态化写死的数据
+
 
 ![img_7.png](img_7.png)
 
@@ -563,7 +566,8 @@ $categories  = mysqli_fetch_all($result, MYSQLI_ASSOC);
 **步骤：**
 <hr>
 
-1. 添加`php`数据添加逻辑
+1. 添加`php`数据处理逻辑
+
 ```php
 <?php
 if (isset($_POST['submit'])) {
@@ -600,7 +604,91 @@ if (isset($_POST['submit'])) {
 - `role="alert"` 是一个辅助性的 ARIA 角色属性，用于定义元素的作用，这里表示这个 div 元素是一个警告框。
 
 
+### 3.1.3 编辑类别功能
 
+1. 修改编辑按钮
+
+    添加了 data-id 和 data-name 属性，用于在模态框中显示对应的类别信息。
+
+```html
+<a class='btn btn-secondary btn-sm' data-bs-toggle='modal' data-bs-target='#editCategoryModal' data-id='" . $category['id'] . "' data-name='" . $category['name'] . "'>编辑</a>
+```
+
+- `data-bs-toggle='modal'`: 这个属性告诉 Bootstrap 模态框插件在单击按钮时要显示一个模态框。
+
+- `data-bs-target='#editCategoryModal'`: 这个属性指定了要显示的模态框的目标，其值是模态框的 ID，也就是 editCategoryModal。
+
+- `data-id='" . $category['id'] . "'`: 这个属性用于存储类别的 ID 值，以便在模态框中使用。
+
+- `data-name='" . $category['name'] . "'`: 这个属性用于存储类别的名称，以便在模态框中使用。
+
+2. 添加模态
+
+    添加模态，当用户点击编辑的时候弹出widget，用户可以在widget中编辑类别名称
+    接着提交修改
+
+```html
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCategoryModalLabel">编辑类别</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="updated_name" class="form-label">类别名称</label>
+                        <input type="text" class="form-control" id="updated_name" name="updated_name">
+                        <input type="hidden" id="category_id" name="id">
+                    </div>
+                    <button type="submit" name="update" class="btn btn-primary">更新类别</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+```javascript
+<script>
+    var editCategoryModal = document.getElementById('editCategoryModal');
+    editCategoryModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var id = button.getAttribute('data-id');
+        var name = button.getAttribute('data-name');
+        var modalInputName = editCategoryModal.querySelector('.modal-body input[name="updated_name"]');
+        var modalInputId = editCategoryModal.querySelector('.modal-body input[name="id"]');
+        modalInputName.value = name;
+        modalInputId.value = id;
+    });
+</script>
+
+```
+
+3. 添加`php`数据处理逻辑
+
+```php
+<?php
+    if (isset($_POST['update']) && !empty($_POST['updated_name']) && !empty($_POST['id'])) {
+        $updated_name = $_POST['updated_name'];
+        $category_id = $_POST['id'];
+        $sql = "UPDATE categories SET name=? WHERE id=?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "si", $updated_name, $category_id);
+        mysqli_stmt_execute($stmt);
+    }
+?>
+```
+
+这段代码通过使用参数化查询来防止 SQL 注入。参数化查询是一种将 SQL 查询语句与用户提供的数据分开的方法。在这种情况下，SQL 查询中的变量部分（即需要从用户输入中获取的部分）被替换为占位符，而用户提供的数据则作为参数传递给查询。这样做可以防止恶意用户利用输入数据来执行 SQL 注入攻击。
+
+>**SQL 注入**💡
+> 
+> 常见的网络安全漏洞，攻击者通过在输入字段中注入恶意的 SQL 代码，从而获取或修改数据库中的数据，甚至完全控制数据库服务器。通过使用参数化查询，我们可以确保用户输入的数据不会被解释为 SQL 代码的一部分，从而有效地防止了 SQL 注入攻击。
+
+
+### 3.1.4 删除类别功能
 
 
  
