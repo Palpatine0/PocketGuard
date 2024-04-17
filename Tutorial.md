@@ -563,8 +563,41 @@ $categories  = mysqli_fetch_all($result, MYSQLI_ASSOC);
 **步骤：**
 <hr>
 
+1. 添加`php`数据添加逻辑
+```php
+<?php
+if (isset($_POST['submit'])) {
+    $category_name = $_POST['category_name'];
+    $sql = "INSERT INTO categories (name) VALUE('$category_name')";
+    mysqli_query($conn, $sql);
+}
+?>
+```
 
+![img_5.png](img_5.png)
 
+2. 添加空值判断
+
+```php
+<?php
+if (isset($_POST['submit'])) {
+    if (empty($_POST['category_name'])) {
+        echo '<div class="alert alert-danger" role="alert">请输入一个类别名称</div>';
+    } else {
+        $category_name = $_POST['category_name'];
+        $sql = "INSERT INTO categories (name) VALUE('$category_name')";
+        mysqli_query($conn, $sql);
+    }
+}
+?>
+ 
+```
+![img_8.png](img_8.png)
+![img_6.png](img_6.png)
+
+- `<div class="alert alert-danger" role="alert">请输入一个类别名称</div>` 是一个带有 Bootstrap 样式的 div 元素，它会显示为红色背景的框，提示用户输入一个类别名称。
+- `class="alert alert-danger"` 是 Bootstrap 的样式类，表示这是一个危险（danger）级别的提示框，通常用于显示错误或警告信息。
+- `role="alert"` 是一个辅助性的 ARIA 角色属性，用于定义元素的作用，这里表示这个 div 元素是一个警告框。
 
 
 
