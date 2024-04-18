@@ -9,23 +9,7 @@
         <div class="container mt-5">
             <h2>仪表板</h2>
             <div class="row">
-                <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">总余额</h5>
-                            <p class="card-text">$1,200</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">本月总收入</h5>
-                            <p class="card-text">$3,000</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md">
                     <div class="card text-center">
                         <div class="card-body">
                             <h5 class="card-title">本月总支出</h5>

@@ -22,21 +22,28 @@
                 </thead>
                 <tbody>
                     <?php
-                    // Fake data
-                    $transactions = [
-                        ["date" => "2023-12-01", "type" => "Expense", "category" => "Groceries", "amount" => 100, "description" => "Weekly groceries"],
-                        ["date" => "2023-12-02", "type" => "Income", "category" => "Salary", "amount" => 2000, "description" => "Monthly salary"],
-                        ["date" => "2023-12-03", "type" => "Expense", "category" => "Rent", "amount" => 500, "description" => "Monthly rent"],
-                        ["date" => "2023-12-04", "type" => "Expense", "category" => "Utilities", "amount" => 150, "description" => "Utility bills"],
-                        ["date" => "2023-12-05", "type" => "Expense", "category" => "Entertainment", "amount" => 200, "description" => "Movie tickets"]
-                    ];
+                    // receive all data from table transactions
+                    $sql = 'SELECT * FROM transactions';
+                    $result = mysqli_query($conn, $sql);
+                    $transactions  = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                    // perp for type
+                    $typeArr=array(
+                            '1'=>'收入',
+                            '2'=>'支出'
+                    );
+                    // perp for category
+                    $sql = 'SELECT id, name FROM categories';
+                    $result = mysqli_query($conn, $sql);
+                    $categoriesArr = [];
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $categoriesArr[$row['id']] = $row['name'];
+                    }
 
-                    // Output data of each row
                     foreach($transactions as $transaction) {
                         echo "<tr>
-                                <td>" . $transaction["date"] . "</td>
-                                <td>" . $transaction["type"] . "</td>
-                                <td>" . $transaction["category"] . "</td>
+                                <td>" . date('Y-m-d H:i', $transaction['datetime']) . "</td>
+                                <td>" . $typeArr[$transaction["type"]] . "</td>
+                                <td>" . $categoriesArr[$transaction["cid"]] . "</td>
                                 <td>" . $transaction["amount"] . "</td>
                                 <td>" . $transaction["description"] . "</td>
                              </tr>";

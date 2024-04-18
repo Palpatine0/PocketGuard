@@ -196,7 +196,7 @@
 ```  
 
 **效果图✨**  
-![img.png](img.png)
+![](https://pic.leetcode.cn/1713419031-QngqjR-image.png)
 
 1. 创建`add_transaction.php`
 ```html  
@@ -251,7 +251,7 @@
 ```  
 
 **效果图✨**  
-![img_15.png](img_15.png)  
+![](https://pic.leetcode.cn/1713419363-SyHNGc-WeChat412ebd457446af43cf02e625930b1abd.jpg)  
   
 3. 创建`view_transaction.php`  
 ```html
@@ -400,23 +400,7 @@
         <div class="container mt-5">  
             <h2>仪表板</h2>  
             <div class="row">  
-                <div class="col-md-4">  
-                    <div class="card text-center">  
-                        <div class="card-body">  
-                            <h5 class="card-title">总余额</h5>  
-                            <p class="card-text">$1,200</p>  
-                        </div>  
-                    </div>  
-                </div>  
-                <div class="col-md-4">  
-                    <div class="card text-center">  
-                        <div class="card-body">  
-                            <h5 class="card-title">本月总收入</h5>  
-                            <p class="card-text">$3,000</p>  
-                        </div>  
-                    </div>  
-                </div>  
-                <div class="col-md-4">  
+                <div class="col-md">  
                     <div class="card text-center">  
                         <div class="card-body">  
                             <h5 class="card-title">本月总支出</h5>  
@@ -440,8 +424,9 @@
     </body>  
 </html>
 ```  
+
 **效果图✨**  
-![img_11.png](img_11.png)
+![image.png](https://pic.leetcode.cn/1713427718-xvTLHh-image.png)
 
 
 
@@ -539,9 +524,7 @@ $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
 首先搭建类别管理，我们会在添加交易的时候用到类别管理的数据
 
 ### 3.1.1 数据显示
-**步骤：**
-<hr>
-
+ 
 1.将模拟数据切换成数据库的数据
 
 
@@ -561,8 +544,6 @@ $categories  = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 增加一种类别到数据库，以供添加交易记录的时候选择
 
-**步骤：**
-<hr>
 
 1. 添加`php`数据处理逻辑
 
@@ -788,3 +769,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 > 使用时间戳可以方便地进行日期和时间的各种操作，如加减、格式化、转换等。而在字符串格式中，要进行相同的操作可能会更复杂一些。
 > - **兼容性：** 
 > 在许多编程语言和数据库系统中，时间戳都是常见的时间表示方法，因此使用时间戳可以提高代码的兼容性。
+
+
+
+## 3.3 查看交易
+
+### 3.3.1 数据显示
+
+1. 将模拟数据切换成数据库的数据
+
+
+```php
+$sql = 'SELECT * FROM transactions';
+$result = mysqli_query($conn, $sql);
+$transactions  = mysqli_fetch_all($result, MYSQLI_ASSOC);
+```
+
+接下来我们要对数据库里的数据进行处理，以确保他们正确在页面上显示
+
+2. 配置日期格式
+```php
+<td>" . date('Y-m-d H:i', $transaction['datetime']) . "</td> 
+```
+通过此方式将数据库里的时间戳自动转换为日期时间格式
+
+3. 配置交易类型
+
+为了更方便的存储以及确保数据的安全性，我们在数据库里存放`0`和`1`以分别代表`收入`和`支出`。
+我们在打印数据的时候需要把数库里的`0`和`1`转换为`收入`和`支出`。
+
+首先我们先创建一个数组
+```php
+$typeArr=array(
+    '1'=>'收入',
+    '2'=>'支出'
+);
+```
+这段代码定义了一个名为 $typeArr 的关联数组，其中键值对表示了交易类型和对应的中文描述。
+- 键值 `1` 对应的中文描述是 `收入`，表示该交易类型为收入。
+- 键值 `2` 对应的中文描述是 `支出`，表示该交易类型为支出。
+
+这样的数组结构提供了一种便捷的方式，可以通过数字类型来表示不同的交易类型
+
+接下来我们将从数据库拿到的类型字段放进这个数组
+```php
+<td>" . $typeArr[$transaction["type"]] . "</td>
+```
+我们从数据库拿到的要么是`0`或者是`1`，如果你拿到的是`1`，假如。
+那放进我们创建的类型数组里面就会根据`1`找到对应的`收入`，然后打印出来。
+
+4. 配置交易类别
+
+
+当处理交易类别时，同样可以采用类似将从数据库拿到的数据在一个数组里做匹配的方法。
+首先，从数据库中检索类别数据，并将其存储在一个关联数组中，以便在打印交易列表时能够将类别 ID 转换为类别名称。
+```php
+$sql = 'SELECT id, name FROM categories';
+$result = mysqli_query($conn, $sql);
+$categoriesArr = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $categoriesArr[$row['id']] = $row['name'];
+}
+```
+这段代码首先执行了一个 SQL 查询，选择了数据库中的所有类别，并通过 mysqli_fetch_assoc() 函数逐行获取查询结果。在循环中，将每一行的类别 ID 作为关联数组的键，类别名称作为对应的值，最终形成了一个以类别 ID 为键、类别名称为值的关联数组 $categoriesArr。
+
+通过这种方式，我们可以在后续代码中使用 $categoriesArr 数组，根据类别 ID 快速获取对应的类别名称，以便在交易列表等页面中显示更友好的类别信息。
+
+接下来我们将从数据库拿到的类别字段放进这个数组
+```php
+<td>" . $categoriesArr[$transaction["cid"]] . "</td>
+```
+原理与类型一致
+
+
+
