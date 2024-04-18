@@ -1,102 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
     <head>
         <?php include 'common/resource.php'; ?>
-        <title>类别管理</title>
+        <title>仪表板</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     </head>
     <body>
         <?php include 'common/nav.html'; ?>
+        <?php
+        $sql = 'SELECT SUM(amount) AS totalAmount FROM transactions';
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        $totalAmount = $row['totalAmount'];
+        ?>
+
         <div class="container mt-5">
-            <h2>类别管理</h2>
-            <form action="" method="post" class="mb-4">
-                <div class="input-group">
-                    <input type="text" name="category_name" class="form-control" placeholder="New Category Name">
-                    <button type="submit" name="submit" class="btn btn-primary">添加类别</button>
-                </div>
-            </form>
-
-            <?php
-            if (isset($_POST['submit'])) {
-                if (empty($_POST['category_name'])) {
-                    echo '<div class="alert alert-danger" role="alert">Please enter a category name.</div>';
-                } else {
-                    $category_name = $_POST['category_name'];
-                    $sql = "INSERT INTO categories (name) VALUE('$category_name')";
-                    mysqli_query($conn, $sql);
-                }
-            }
-            ?>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>类别名称</th>
-                        <th style="text-align: right">操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $sql = 'SELECT * FROM categories';
-                    $result = mysqli_query($conn, $sql);
-                    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                    foreach ($categories as $category) {
-                        echo "
-                        <tr>
-                            <td>" . $category["name"] . "</td>
-                            <td style='text-align: right;'>
-                                <a href='#' class='btn btn-secondary btn-sm' data-bs-toggle='modal' data-bs-target='#editCategoryModal' data-id='" . $category['id'] . "' data-name='" . $category['name'] . "'>编辑</a>
-                                <a class='btn btn-danger btn-sm'>删除</a>
-                            </td>
-                        </tr>";
-                    }
-                    ?>
-                </tbody>
-
-                <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editCategoryModalLabel">编辑类别</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="post">
-                                    <div class="mb-3">
-                                        <label for="updated_name" class="form-label">类别名称</label>
-                                        <input type="text" class="form-control" id="updated_name" name="updated_name">
-                                        <input type="hidden" id="category_id" name="id">
-                                    </div>
-                                    <button type="submit" name="update" class="btn btn-primary">更新类别</button>
-                                </form>
-                            </div>
+            <h2>仪表板</h2>
+            <div class="row">
+                <div class="col-md">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">总收支</h5>
+                            <p class="card-text">$<?php echo $totalAmount; ?></p>
                         </div>
                     </div>
                 </div>
-
-                <?php
-                if (isset($_POST['update'])) {
-                    if (!empty($_POST['updated_name']) || !empty($_POST['id'])) {
-                        $updated_name = $_POST['updated_name'];
-                        $category_id = $_POST['id'];
-                        $sql = "UPDATE categories SET name='$updated_name' WHERE id='$category_id'";
-                        mysqli_query($conn, $sql);
+            </div>
+            <div class="row mt-4">
+                <div class="mb-5">
+                    <h4 class="text-center">支出细分</h4>
+                    <div class="container" style="width: 30%;">
+                        <div class="d-flex justify-content-center">
+                            <canvas id="expenseTypePieChart" ></canvas>
+                        </div>
+                    </div>
+                    <?php
+                    $sql = "
+                    SELECT c.name AS category_name, SUM(t.amount) AS total_amount
+                    FROM transactions t
+                    JOIN categories c ON t.cid = c.id
+                    WHERE t.type = 2
+                    GROUP BY c.name
+                    ";
+                    $result = mysqli_query($conn, $sql);
+                    $labels = [];
+                    $data = [];
+                    if (mysqli_num_rows($result) > 0) {
+                        while($row = mysqli_fetch_assoc($result)) {
+                            $labels[] = $row['category_name'];
+                            $data[] = $row['total_amount'];
+                        }
+                    } else {
+                        echo "未找到数据.";
                     }
-                }
-                ?>
-            </table>
+                    ?>
+                </div>
+
+
+
+                <div>
+                    <h4 class="text-center">收入细分</h4>
+                    <canvas id="incomeVsExpenseChart"></canvas>
+                </div>
+
+
+            </div>
         </div>
+
+
+
         <?php include 'common/footer.html'; ?>
     </body>
+
+
     <script>
-        var editCategoryModal = document.getElementById('editCategoryModal');
-        editCategoryModal.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget;
-            var id = button.getAttribute('data-id');
-            var name = button.getAttribute('data-name');
-            var modalInputName = editCategoryModal.querySelector('.modal-body input[name="updated_name"]');
-            var modalInputId = editCategoryModal.querySelector('.modal-body input[name="id"]');
-            modalInputName.value = name;
-            modalInputId.value = id;
+        var ctx = document.getElementById('expenseTypePieChart').getContext('2d');
+        var expenseTypePieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: <?php echo json_encode($labels); ?>,
+                datasets: [{
+                    label: '',
+                    data: <?php echo json_encode($data); ?>,
+                    backgroundColor: [
+                        "#3A2D11",
+                        "#8780E9",
+                        "#EFF1F0",
+                        "#FDEFD5",
+                        "#CFC2B9",
+                        "#9E7C49"
+
+                    ],
+                    borderColor: [
+                        "#3A2D11",
+                        "#8780E9",
+                        "#EFF1F0",
+                        "#FDEFD5",
+                        "#CFC2B9",
+                        "#9E7C49"
+
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                }
+            }
         });
     </script>
+
 </html>
