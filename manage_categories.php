@@ -18,7 +18,7 @@
             <?php
             if (isset($_POST['submit'])) {
                 if (empty($_POST['category_name'])) {
-                    echo '<div class="alert alert-danger" role="alert">Please enter a category name.</div>';
+                    echo '<div class="alert alert-danger" role="alert">请输入一个类别名称</div>';
                 } else {
                     $category_name = $_POST['category_name'];
                     $sql = "INSERT INTO categories (name) VALUE('$category_name')";
