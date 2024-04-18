@@ -149,7 +149,7 @@
 <hr>
 
 1. 创建`index.php`
-```php  
+```html  
 <!DOCTYPE html>  
 <html lang="en">  
     <head>  
@@ -196,7 +196,7 @@
 ```  
 
 **效果图✨**  
-![](https://pic.leetcode.cn/1713419031-QngqjR-image.png)
+![](https://pic.leetcode.cn/1713430545-qxfHYg-WeChat53a592d4a74b32ad0e73f9c27f3e4504.jpg)
 
 1. 创建`add_transaction.php`
 ```html  
@@ -213,7 +213,7 @@
             <form action="" method="post">  
                 <!-- Transaction Type -->  
                 <div class="mb-3">  
-                    <label for="transactionType" class="form-label">交易类型</label>  
+                    <label for="transactionType" class="form-label">交易类型*</label>  
                     <select class="form-select" id="transactionType" name="transaction_type" required>  
                         <option value="">选择类型</option>  
                         <option value="1">收入</option>  
@@ -222,17 +222,17 @@
                 </div>  
   
                 <div class="mb-3">  
-                    <label for="amount" class="form-label">金额</label>  
+                    <label for="amount" class="form-label">金额*</label>  
                     <input type="number" class="form-control" id="amount" name="amount" placeholder="输入金额" required>  
                 </div>  
   
                 <div class="mb-3">
-                    <label for="transactionDate" class="form-label">时间</label>
+                    <label for="transactionDate" class="form-label">时间*</label>
                     <input type="datetime-local" class="form-control" id="transactionDate" name="transaction_date" required>
                 </div>  
   
                 <div class="mb-3">  
-                    <label for="category" class="form-label">类别</label>  
+                    <label for="category" class="form-label">类别*</label>  
                     <input type="text" class="form-control" id="category" name="category" placeholder="类别（例如，杂货，工资）" required>  
                 </div>  
   
@@ -251,7 +251,7 @@
 ```  
 
 **效果图✨**  
-![](https://pic.leetcode.cn/1713419363-SyHNGc-WeChat412ebd457446af43cf02e625930b1abd.jpg)  
+![](https://pic.leetcode.cn/1713430761-HtSIEw-WeChat1baa4da4f1aa8f392ab3233760801089.jpg)  
   
 3. 创建`view_transaction.php`  
 ```html
@@ -269,11 +269,11 @@
             <table class="table">    
                 <thead>    
                     <tr>    
-	                    <th>日期</th>  
-						<th>类型</th>  
-						<th>类别</th>  
-						<th>金额</th>  
-						<th>描述</th>
+                        <th>日期</th>  
+                        <th>类型</th>  
+                        <th>类别</th>  
+                        <th>金额</th>  
+                        <th>描述</th>
                     </tr>    
                 </thead>    
                 <tbody>    
@@ -357,35 +357,35 @@
 ```  
 - **添加模拟数据**
 ```html
-<<?php  
-                    // Fake data  
-                    $categories = [  
-                        ["id" => 1, "name" => "Groceries"],  
-                        ["id" => 2, "name" => "Salary"],  
-                        ["id" => 3, "name" => "Rent"],  
-                        ["id" => 4, "name" => "Utilities"],  
-                        ["id" => 5, "name" => "Entertainment"]  
-                    ];  
-  
-                    // Output data of each row  
-                   foreach ($categories as $category) {
-                        echo "<tr>
-                                <td>" . $category["name"] . "</td>
-                                <td>
-                                    <div style='text-align: right;'>
-                                        <a href='edit_category.php?id=" . $category["id"] . "' class='btn btn-secondary btn-sm'>编辑</a>
-                                        <a href='delete_category.php?id=" . $category["id"] . "' class='btn btn-danger btn-sm'>删除</a>
-                                    </div>
-                                </td>
-                             </tr>";
-                    }
+<?php  
+    // Fake data  
+    $categories = [  
+        ["id" => 1, "name" => "Groceries"],  
+        ["id" => 2, "name" => "Salary"],  
+        ["id" => 3, "name" => "Rent"],  
+        ["id" => 4, "name" => "Utilities"],  
+        ["id" => 5, "name" => "Entertainment"]  
+    ];  
+
+    // Output data of each row  
+   foreach ($categories as $category) {
+        echo "<tr>
+                <td>" . $category["name"] . "</td>
+                <td>
+                    <div style='text-align: right;'>
+                        <a class='btn btn-secondary btn-sm'>编辑</a>
+                        <a class='btn btn-danger btn-sm'>删除</a>
+                    </div>
+                </td>
+             </tr>";
+    }
 ?>  
 ```  
 
-![](https://zhjyshop.osshangzhou.aliyuncs.com/Public/Uploads/m_661fc4027b3d4.jpg)  
+![](https://pic.leetcode.cn/1713431402-TieqKY-WeChata1f3740bd6c361c213a03f88f0a35028.jpg)  
 
 **效果图✨**  
-![](https://pic.leetcode.cn/1713428766-PLQPvt-WeChate606e4f83dc37dfe8d85629faecfa5d6.jpg)
+![](https://pic.leetcode.cn/1713431095-FDpBsQ-WeChat36a54416c24d536accf7881b78187e5d.jpg)
 
 5. 创建`dashboard.php`
 ```html
@@ -583,7 +583,7 @@ if (isset($_POST['submit'])) {
 - `role="alert"` 是一个辅助性的 ARIA 角色属性，用于定义元素的作用，这里表示这个 div 元素是一个警告框。
 
 **效果图✨**
-![](https://pic.leetcode.cn/1713428842-ODFoJG-WeChat47f1db875b044de44bc2367286357b45.jpg)
+![](https://pic.leetcode.cn/1713431496-LNGtpw-WeChat0853cf579731f202bd5faf2bf3d34d4a.jpg)
 
 ### 3.1.3 编辑类别功能
 
@@ -669,8 +669,8 @@ if (isset($_POST['submit'])) {
 > 常见的网络安全漏洞，攻击者通过在输入字段中注入恶意的 SQL 代码，从而获取或修改数据库中的数据，甚至完全控制数据库服务器。通过使用参数化查询，我们可以确保用户输入的数据不会被解释为 SQL 代码的一部分，从而有效地防止了 SQL 注入攻击。
 
 **效果图✨**
-![img_12.png](img_12.png)
-
+![](https://pic.leetcode.cn/1713429987-zAoFSS-WeChat8b9c3b21445a3a41e2ba1738f3eb3b55.jpg)
+![](https://pic.leetcode.cn/1713430018-xcFnvV-WeChat3a42e58c7ab6da84c789a4f8f9284d88.jpg)
 ### 3.1.4 删除类别功能
 
 1. 修改删除按钮
@@ -684,7 +684,7 @@ if (isset($_POST['submit'])) {
 </form>
 ```
 
-![img_9.png](img_9.png)
+![](https://pic.leetcode.cn/1713429809-yemvZF-WeChatb52cec4251dd0db45e0dc3e2219e800b.jpg)
 
 2. 添加`php`数据处理逻辑
 
@@ -698,7 +698,7 @@ if (isset($_POST['submit'])) {
 ?>
 ```
 
-![img_10.png](img_10.png)
+![WeChat043ceee5e606886c59ecea1a7a893ae4.jpg](https://pic.leetcode.cn/1713431779-LYJirF-WeChat043ceee5e606886c59ecea1a7a893ae4.jpg)
 
 
 ### 3.2 添加交易
@@ -723,10 +723,10 @@ if (isset($_POST['submit'])) {
 </div>
 ```
 
-![img_13.png](img_13.png)
+![](https://pic.leetcode.cn/1713430329-ZtFuOe-WeChat0854647a751666eb5f150aad16a3d95d.jpg)
 
 **效果图✨**
-![img_16.png](img_16.png)
+![](https://pic.leetcode.cn/1713429623-hpxIpa-WeChata884feeaeafd8a3b95023ed06bdb90a5.jpg)
 
 成功连通了自定义交易类别
 
@@ -840,6 +840,9 @@ while ($row = mysqli_fetch_assoc($result)) {
 <td>" . $categoriesArr[$transaction["cid"]] . "</td>
 ```
 原理与类型一致
+
+**效果图✨**
+![](https://pic.leetcode.cn/1713429538-mAsswg-WeChat76675a5a273970592b5804a595609daf.jpg)
 
 
 
