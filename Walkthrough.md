@@ -318,7 +318,7 @@
 ![](https://zhjyshop.oss-cn-hangzhou.aliyuncs.com/Public/Uploads/m_661fc3a96a5ee.jpg)
 
 **效果图✨**  
-![img_1.png](img_1.png)  
+![](https://pic.leetcode.cn/1713428660-dcCYMt-WeChat80b73047b576b156deb688451dc54162.jpg)
 
 4. 创建`manage_categories.php`
 ```html
@@ -385,7 +385,7 @@
 ![](https://zhjyshop.osshangzhou.aliyuncs.com/Public/Uploads/m_661fc4027b3d4.jpg)  
 
 **效果图✨**  
-![img_4.png](img_4.png)
+![](https://pic.leetcode.cn/1713428766-PLQPvt-WeChate606e4f83dc37dfe8d85629faecfa5d6.jpg)
 
 5. 创建`dashboard.php`
 ```html
@@ -426,7 +426,7 @@
 ```  
 
 **效果图✨**  
-![image.png](https://pic.leetcode.cn/1713427718-xvTLHh-image.png)
+![](https://pic.leetcode.cn/1713427718-xvTLHh-image.png)
 
 
 
@@ -537,7 +537,7 @@ $categories  = mysqli_fetch_all($result, MYSQLI_ASSOC);
 通过替换原来的内容以动态化写死的数据
 
 
-![img_7.png](img_7.png)
+![](https://pic.leetcode.cn/1713428880-NSlOzq-WeChatc04f1fd52c8696d959dcecaf40e38db5.jpg)
 
 
 ### 3.1.2 添加类别功能
@@ -557,7 +557,7 @@ if (isset($_POST['submit'])) {
 ?>
 ```
 
-![img_5.png](img_5.png)
+![](https://pic.leetcode.cn/1713428805-fkQCEC-WeChat2683c14b1d7d81e641525e1831d9b9ae.jpg)
 
 2. 添加空值判断
 
@@ -575,7 +575,7 @@ if (isset($_POST['submit'])) {
 ?>
  
 ```
-![img_8.png](img_8.png)
+![](https://pic.leetcode.cn/1713428941-ZnDizH-WeChatae056898abaffd8de0971c6690f5af16.jpg)
 
 
 - `<div class="alert alert-danger" role="alert">请输入一个类别名称</div>` 是一个带有 Bootstrap 样式的 div 元素，它会显示为红色背景的框，提示用户输入一个类别名称。
@@ -583,7 +583,7 @@ if (isset($_POST['submit'])) {
 - `role="alert"` 是一个辅助性的 ARIA 角色属性，用于定义元素的作用，这里表示这个 div 元素是一个警告框。
 
 **效果图✨**
-![img_6.png](img_6.png)
+![](https://pic.leetcode.cn/1713428842-ODFoJG-WeChat47f1db875b044de44bc2367286357b45.jpg)
 
 ### 3.1.3 编辑类别功能
 
